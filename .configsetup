@@ -1,0 +1,10 @@
+// step by step
+/*
+    1. Init Project -> $ npm init
+    2. Install Express
+    3. Init Typescript
+    3. Install All Package/Dependencies
+    4. Point Project Structure
+    5. Sequelize Setup
+    6. Happy Coding :)
+*/
