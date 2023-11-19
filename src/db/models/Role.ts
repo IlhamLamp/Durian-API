@@ -1,4 +1,4 @@
-import { DataType, Model, Optional } from "sequelize";
+import {DataType, Model, Optional } from "sequelize";
 import connection from '../../config/dbConnect';
 
 interface RoleAttributes {
@@ -26,8 +26,8 @@ Role.init({
 
 }, {
     sequelize: connection,
-    modelName: 'Role',
     timestamps: true, 
     underscored: false,
-    freezeTableName: true
 })
+
+export default Role;
