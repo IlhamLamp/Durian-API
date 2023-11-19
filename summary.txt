@@ -1,0 +1,6 @@
+### Migrate ###
+npx sequelize-cli db:migrate
+
+### Seed ###
+npx sequelize-cli db:seed:all
+

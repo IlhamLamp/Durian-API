@@ -1,4 +1,4 @@
-import {DataType, Model, Optional } from "sequelize";
+import {DataType, DataTypes, Model, Optional } from "sequelize";
 import connection from '../../config/dbConnect';
 
 interface RoleAttributes {
@@ -23,7 +23,20 @@ class Role extends Model<RoleAttributes, RoleInput> implements RoleAttributes {
 }
 
 Role.init({
-
+    id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.BIGINT
+    },
+    roleName: {
+        allowNull: false,
+        type: DataTypes.STRING
+    },
+    active: {
+        allowNull: true,
+        type: DataTypes.BOOLEAN
+    }
 }, {
     sequelize: connection,
     timestamps: true, 

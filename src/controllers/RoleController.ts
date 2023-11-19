@@ -5,7 +5,7 @@ const GetRole = async(req: Request, res: Response): Promise<Response> => {
     try {
         const roles = await Role.findAll({
             where: {
-                active: true
+                active: [true, false]
             }
         });
 
@@ -101,4 +101,47 @@ const CreateRole = async(req: Request, res: Response): Promise<Response> => {
     }
 };
 
-export default {GetRole, GetRoleById, CreateRole};
+const UpdateRole = async (req: Response, res: Response): Promise<Response> => {
+    try {
+        const {id} = req.params;
+        const {roleName, active} = req.body;
+
+        const role = await Role.findByPk(id);
+
+        if(!role) {
+            return res.status(404).send({
+                status: 404,
+                message: 'Role Not Found',
+                data: null
+            });
+        }
+
+        role.roleName = roleName;
+        role.active = active;
+
+        await role.save();
+
+        return res.status(200).send({
+            status: 200,
+            message: 'Success Update Selected Role',
+            data: role
+        });
+
+    } catch (error: any) {
+        if (error != null && error instanceof Error) {
+            return res.status(500).send({
+                status: 500,
+                message: error.message,
+                errors: error
+            });
+        }
+
+        return res.status(500).send({
+            status: 500,
+            message: 'Internal Server Error',
+            errors: error
+        });
+    }
+}
+
+export default {GetRole, GetRoleById, CreateRole, UpdateRole};
