@@ -101,7 +101,7 @@ const CreateRole = async(req: Request, res: Response): Promise<Response> => {
     }
 };
 
-const UpdateRole = async (req: Response, res: Response): Promise<Response> => {
+const UpdateRole = async (req: Request, res: Response): Promise<Response> => {
     try {
         const {id} = req.params;
         const {roleName, active} = req.body;
