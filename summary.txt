@@ -4,3 +4,5 @@ npx sequelize-cli db:migrate
 ### Seed ###
 npx sequelize-cli db:seed:all
 
+### Model Generate ###
+npx sequelize-cli model:generate --name User --attributes name:string,email:string,address:string,born:date,roleId:integer,nik:string,gender:string,phone:string,password:string,accessToken:string,verified:boolean,active:boolean
