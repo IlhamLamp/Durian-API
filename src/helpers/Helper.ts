@@ -75,7 +75,8 @@ const ExtractRefreshToken = (token: string): UserData | null => {
 	});
 
 	if (resData) {
-		const result: UserData = <UserData>(resData);
+		// If resData is not null, it means the JWT was successfully verified and the decoded token payload contains user data. The code then converts the resData object to type UserData and returns it.
+		const result: UserData = <UserData>(resData); 
 		return result
 	}
 
