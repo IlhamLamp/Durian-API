@@ -16,5 +16,7 @@ router.delete("/role/:id", RoleController.DeleteRole);
 
 // users
 router.post("/user/signup", UserValidation.RegisterValidation, UserController.Register)
+router.post("/user/login", UserController.UserLogin);
+
 
 export default router;
