@@ -49,15 +49,36 @@ const UserLogin = async (req: Request, res: Response): Promise<Response> => {
             return res.status(401).send(Helper.ResponseData(401, 'Unauthorized', null, null));
         }
 
-        return res.status(200).send(Helper.ResponseData(200, 'OK', null, user));
-        
-        // const dataUser = {
-        //     name: user.name,JS
-        //     email: user.email,
-        //     roleId: user.roleId,
-        //     verified: user.verified,
-        //     active: user.active
-        // };
+        const dataUser = {
+            name: user.name,
+            email: user.email,
+            address: user.address,
+            born: user.born,
+            roleId: user.roleId,
+            nik: user.nik,
+            gender: user.gender,
+            phone: user.phone,
+            verified: user.verified,
+            active: user.active
+        }
+
+        const token = Helper.GenerateToken(dataUser);
+        const refreshToken = Helper.GenerateRefreshToken(dataUser);
+
+        user.accessToken = refreshToken;
+        await user.save();
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000
+        });
+
+        const responseUser = {
+            ...dataUser,
+            token: token
+        }
+
+        return res.status(200).send(Helper.ResponseData(200, 'OK', null, responseUser));
+
 
     } catch (error: any) {
         return res.status(500).send(Helper.ResponseData(500, 'Internal Server Error', error, null));
