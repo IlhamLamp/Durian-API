@@ -12,6 +12,9 @@ const Authenticated = (req: Request, res: Response, next: NextFunction) => {
         }
 
         const result = Helper.ExtractToken(token!);
+        if (!result) {
+            return res.status(401).send(Helper.ResponseData(401, 'Unauthorized', null, null));
+        }
         next();
 
     } catch (error: any) {

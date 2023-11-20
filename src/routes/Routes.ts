@@ -9,7 +9,7 @@ import Authorization from '../middleware/Authorization';
 const router = express.Router();
 
 // roles
-router.get("/role", Authorization.Authenticated,RoleController.GetRole);
+router.get("/role", Authorization.Authenticated, RoleController.GetRole);
 router.post("/role", RoleController.CreateRole);
 router.get("/role/:id", RoleController.GetRoleById);
 router.patch("/role/:id", RoleController.UpdateRole);
