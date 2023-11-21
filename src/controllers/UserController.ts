@@ -6,7 +6,7 @@ import Helper from "../helpers/Helper";
 const Register = async (req: Request, res: Response): Promise<Response> => {
     try {
 
-        const { name, email, address, born, nik, gender, phone, password, confirmPassword } = req.body;
+        const { name, email, address, born, nik, gender, phone, password } = req.body;
         const hashed = await PasswordHelper.PasswordHashing(password);
 
         const user = await User.create({

@@ -4,22 +4,23 @@ import UserInput from "../db/models/User";
 
 dotenv.config();
 
-// interface UserData extends UserInput {
+// extends model from UserInput Model
+interface UserData extends UserInput {
 
-// }
-
-interface UserData {
-	name: string | null,
-	email: string | null,
-	address: string | null,
-	born: string | null,
-	roleId: number | null,
-	nik: string | null,
-	gender: string | null,
-	phone: string | null,
-	verified: boolean | null,
-	active: boolean | null
 }
+
+// interface UserData {
+// 	name: string | null,
+// 	email: string | null,
+// 	address: string | null,
+// 	born: string | null,
+// 	roleId: number | null,
+// 	nik: string | null,
+// 	gender: string | null,
+// 	phone: string | null,
+// 	verified: boolean | null,
+// 	active: boolean | null
+// }
 
 const ResponseData = (status: number, message: string | null, error: any | null, data: any | null) => {
 	if (error != null && error instanceof Error) {
