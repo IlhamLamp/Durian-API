@@ -73,16 +73,77 @@ const UserLogin = async (req: Request, res: Response): Promise<Response> => {
         });
 
         const responseUser = {
-            ...dataUser,
+            name: user.name,
+            email: user.email,
+            address: user.address,
+            born: user.born,
+            roleId: user.roleId,
+            nik: user.nik,
+            gender: user.gender,
+            phone: user.phone,
+            verified: user.verified,
+            active: user.active,
             token: token
         }
 
-        return res.status(200).send(Helper.ResponseData(200, 'OK', null, responseUser));
+        // test
+        console.log(responseUser);
 
+        return res.status(200).send(Helper.ResponseData(200, 'OK', null, responseUser));
 
     } catch (error: any) {
         return res.status(500).send(Helper.ResponseData(500, 'Internal Server Error', error, null));
     }
 }
 
-export default { Register, UserLogin }; 
+const RefreshToken = async (req: Request, res: Response): Promise<Response> => {
+
+    try {
+
+        const refreshToken = req.cookies?.refreshToken;
+
+        // refreshToken = undefined
+
+        if (refreshToken === undefined) {
+            return res.status(400).send(Helper.ResponseData(400, 'Undefined ya bg', Error, undefined))
+        }
+
+        if (!refreshToken) {
+            return res.status(401).send(Helper.ResponseData(401, 'refresh token gagal', null, null));
+        }
+
+        const decodedUser = Helper.ExtractRefreshToken(refreshToken);
+        console.log(decodedUser);
+
+        if (!decodedUser) {
+            return res.status(401).send(Helper.ResponseData(401, 'decoded user gagal', null, null));
+        }
+
+        const decodedUserData = {
+            name: decodedUser.name,
+            email: decodedUser.email,
+            address: decodedUser.address,
+            born: decodedUser.born,
+            roleId: decodedUser.roleId,
+            nik: decodedUser.nik,
+            gender: decodedUser.gender,
+            phone: decodedUser.phone,
+            verified: decodedUser.verified,
+            active: decodedUser.active
+        };
+
+        const token = Helper.GenerateToken(decodedUserData);
+
+        const resultUser = {    
+            ...decodedUserData,
+            token: token
+        }
+
+        return res.status(200).send(Helper.ResponseData(201, 'OK', null, resultUser));
+
+    } catch (error: any) {
+        return res.status(500).send(Helper.ResponseData(500, 'Internal Server Error', error, null))
+    }
+}
+
+export default { Register, UserLogin, RefreshToken }; 
