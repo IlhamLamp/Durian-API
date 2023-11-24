@@ -73,16 +73,7 @@ const UserLogin = async (req: Request, res: Response): Promise<Response> => {
         });
 
         const responseUser = {
-            name: user.name,
-            email: user.email,
-            address: user.address,
-            born: user.born,
-            roleId: user.roleId,
-            nik: user.nik,
-            gender: user.gender,
-            phone: user.phone,
-            verified: user.verified,
-            active: user.active,
+            ...dataUser,
             token: token
         }
 

@@ -1,4 +1,5 @@
 import express, {Request, Response} from "express";
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import router from "./routes/Routes";
 
@@ -6,6 +7,7 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser()); // KSABAR
 
 app.get("/", (req: Request, res: Response) => {
     return res.status(200).send({

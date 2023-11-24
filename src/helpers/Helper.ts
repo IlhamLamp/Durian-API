@@ -45,58 +45,86 @@ const ResponseData = (status: number, message: string | null, error: any | null,
 }
 
 const GenerateToken = (data: any): string => {
-	const token = jwt.sign(data, process.env.JWT_TOKEN as string, { expiresIn: "30s"});
-	return token;
+	try {
+		if (!data) {
+			return 'User data not available';
+		}
+		const token = jwt.sign(data, process.env.JWT_TOKEN as string, { expiresIn: "30s"});
+		return token;
+	} catch (error) {
+		return 'Failure Generate Token';
+	}
 }
 
 const GenerateRefreshToken = (data: any): string => {
-	const token = jwt.sign(data, process.env.JWT_REFRESH_TOKEN as string, { expiresIn: "1d"});
-	return token;
+	try {
+		if (!data) {
+			return 'User data not available';
+		}
+		const token = jwt.sign(data, process.env.JWT_REFRESH_TOKEN as string, { expiresIn: "1d"});
+		return token;
+	} catch (error) {
+		return 'Failure generate refresh token';
+	}
 }
 
 const ExtractToken = (token: string): UserData | null => {
-	
-	const secretKey: string = process.env.JWT_TOKEN as string;
+	try {
 
-	let resData: any;
-
-	const res = jwt.verify(token, secretKey, (err, decoded) => {
-		if (err) {
-			resData = null
-		} else {
-			resData = decoded
+		if (!token) {
+			console.log('Token isnt available')
+			return null;
 		}
-	});
 
-	if (resData) {
-		const result: UserData = <UserData>(resData);
-		return result;
+		const secretKey: string = process.env.JWT_TOKEN as string;
+		let resData: any;
+
+		const res = jwt.verify(token, secretKey, (err, decoded) => {
+			if (err) {
+				resData = null
+			} else {
+				resData = decoded
+			}
+		});
+
+		if (resData) {
+			const result: UserData = <UserData>(resData);
+			return result;
+		}
+		return null;
+	} catch (error) {
+		return null;
 	}
-	
-	return null;
 }
 
 const ExtractRefreshToken = (token: string): UserData | null => {
-	
-	const secretKey: string = process.env.JWT_REFRESH_TOKEN as string;
-	
-	let resData: any;
+	try {
 
-	const res = jwt.verify(token, secretKey, (err, decoded) => {
-		if (err) {
-			resData = null
-		} else {
-			resData = decoded
+		if (!token) {
+			console.log('Token not available');
+			return null;
 		}
-	});
 
-	if (resData) {
-		// If resData is not null, it means the JWT was successfully verified and the decoded token payload contains user data. The code then converts the resData object to type UserData and returns it.
-		const result: UserData = <UserData>(resData); 
-		return result;
+		const secretKey: string = process.env.JWT_REFRESH_TOKEN as string;
+		let resData: any;
+
+		const res = jwt.verify(token, secretKey, (err, decoded) => {
+			if (err) {
+				resData = null
+			} else {
+				resData = decoded
+			}
+		});
+
+		if (resData) {
+			// If resData is not null, it means the JWT was successfully verified and the decoded token payload contains user data. The code then converts the resData object to type UserData and returns it.
+			const result: UserData = <UserData>(resData); 
+			return result;
+		}
+		return null;
+	} catch (error) {
+		return null;
 	}
-
-	return null;
 }
 
 
