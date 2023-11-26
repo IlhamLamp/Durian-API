@@ -124,7 +124,7 @@ const UserLogout = async (req: Request, res: Response): Promise<Response> => {
             return res.status(200).send(Helper.ResponseData(200, 'User Logout', null, null));
         }
 
-        const email = res.locals.email;
+        const email = res.locals.userEmail;
         const user = await User.findOne({
             where: {
                 email: email

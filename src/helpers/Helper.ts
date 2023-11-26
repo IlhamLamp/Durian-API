@@ -5,7 +5,7 @@ import UserInput from "../db/models/User";
 dotenv.config();
 
 // extends model from UserInput Model	
-interface UserData extends UserInput {
+interface UserData extends UserInput{
 
 }
 
