@@ -87,6 +87,46 @@ const UserLogin = async (req: Request, res: Response): Promise<Response> => {
     }
 }
 
+const UserLogout = async (req: Request, res: Response): Promise<Response> => {
+
+    try {
+        const refreshToken = req.cookies?.refreshToken;
+        if (!refreshToken) {
+            return res.status(200).send(Helper.ResponseData(200, 'User Logout', null, null));
+        }
+
+        const email = res.locals.email;
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        });
+
+        if (!user) {
+            res.clearCookie('refreshToken');
+            return res.status(200).send(Helper.ResponseData(200, 'User Logout', null, null));
+        }
+
+        await user.update({
+            accessToken: null
+        }, {
+            where: {
+                email: email
+            }
+        });
+
+        res.clearCookie('refreshToken');
+        return res.status(200).send(Helper.ResponseData(200, 'User Logout', null, null));
+    } catch (error) {
+        return res.status(500).send(Helper.ResponseData(500, 'Internal Server Error', null, null));
+    }
+}
+
+
+
+
+
+
 const RefreshToken = async (req: Request, res: Response): Promise<Response> => {
 
     try {
@@ -137,4 +177,4 @@ const RefreshToken = async (req: Request, res: Response): Promise<Response> => {
     }
 }
 
-export default { Register, UserLogin, RefreshToken }; 
+export default { Register, UserLogin, UserLogout, RefreshToken }; 

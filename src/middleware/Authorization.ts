@@ -15,6 +15,8 @@ const Authenticated = (req: Request, res: Response, next: NextFunction) => {
         if (!result) {
             return res.status(401).send(Helper.ResponseData(401, 'Unauthorized', null, null));
         }
+
+        res.locals.userEmail = result?.email;
         next();
 
     } catch (error: any) {
