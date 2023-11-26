@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from '../db/models/User';
 import PasswordHelper from "../helpers/PasswordHelper";
 import Helper from "../helpers/Helper";
+import Role from "../db/models/Role";
 
 const Register = async (req: Request, res: Response): Promise<Response> => {
     try {
@@ -87,6 +88,34 @@ const UserLogin = async (req: Request, res: Response): Promise<Response> => {
     }
 }
 
+const UserDetail = async (req: Request, res: Response): Promise<Response> => {
+
+    try {
+
+        const email = res.locals.userEmail;
+        const user = await User.findOne({
+            where: {
+                email: email
+            },
+            include: {
+                model: Role,
+                attributes: ["id", "rolename"]
+            }
+        });
+
+        if (!user) {
+            return res.status(404).send(Helper.ResponseData(404, 'User not found', null, null));
+        }
+
+        user.password = '';
+        user.accessToken = '';
+        return res.status(200).send(Helper.ResponseData(200, 'OK', null, user));
+
+    } catch (error) {
+        return res.status(500).send(Helper.ResponseData(500, 'Internal Server Error', null, null));
+    }
+}
+
 const UserLogout = async (req: Request, res: Response): Promise<Response> => {
 
     try {
@@ -121,11 +150,6 @@ const UserLogout = async (req: Request, res: Response): Promise<Response> => {
         return res.status(500).send(Helper.ResponseData(500, 'Internal Server Error', null, null));
     }
 }
-
-
-
-
-
 
 const RefreshToken = async (req: Request, res: Response): Promise<Response> => {
 
@@ -177,4 +201,4 @@ const RefreshToken = async (req: Request, res: Response): Promise<Response> => {
     }
 }
 
-export default { Register, UserLogin, UserLogout, RefreshToken }; 
+export default { Register, UserLogin, UserDetail, UserLogout, RefreshToken }; 

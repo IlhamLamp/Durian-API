@@ -5,22 +5,22 @@ import UserInput from "../db/models/User";
 dotenv.config();
 
 // extends model from UserInput Model	
-// interface UserData extends UserInput {
+interface UserData extends UserInput {
 
-// }
-
-interface UserData {
-	name: string | null,
-	email: string | null,
-	address: string | null,
-	born: string | null,
-	roleId: number | null,
-	nik: string | null,
-	gender: string | null,
-	phone: string | null,
-	verified: boolean | null,
-	active: boolean | null
 }
+
+// interface UserData {
+// 	name: string | null,
+// 	email: string | null,
+// 	address: string | null,
+// 	born: string | null,
+// 	roleId: number | null,
+// 	nik: string | null,
+// 	gender: string | null,
+// 	phone: string | null,
+// 	verified: boolean | null,
+// 	active: boolean | null
+// }
 
 const ResponseData = (status: number, message: string | null, error: any | null, data: any | null) => {
 	if (error != null && error instanceof Error) {
@@ -49,7 +49,7 @@ const GenerateToken = (data: any): string => {
 		if (!data) {
 			return 'User data not available';
 		}
-		const token = jwt.sign(data, process.env.JWT_TOKEN as string, { expiresIn: "30s"});
+		const token = jwt.sign(data, process.env.JWT_TOKEN as string, { expiresIn: "1h"});
 		return token;
 	} catch (error) {
 		return 'Failure Generate Token';
