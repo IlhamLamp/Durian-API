@@ -17,6 +17,7 @@ const Authenticated = (req: Request, res: Response, next: NextFunction) => {
         }
 
         res.locals.userEmail = result?.email;
+        res.locals.roleId = result?.roleId;
         next();
 
     } catch (error: any) {
@@ -28,7 +29,7 @@ const SuperUser = (req: Request, res: Response, next: NextFunction) => {
     try {
         const roleId = res.locals.roleId;
         if (roleId !== 1) {
-            return res.status(401).send(Helper.ResponseData(401, 'Forbidden', null, null));
+            return res.status(401).send(Helper.ResponseData(403, 'Forbidden', null, null));
         }
 
         next();
@@ -41,7 +42,7 @@ const AdminRole = (req: Request, res: Response, next: NextFunction) => {
     try {
         const roleId = res.locals.roleId;
         if (roleId !== 2) {
-            return res.status(401).send(Helper.ResponseData(401, 'Forbidden', null, null));
+            return res.status(401).send(Helper.ResponseData(403, 'Forbidden', null, null));
         }
 
         next();
@@ -54,7 +55,7 @@ const BasicUser = (req: Request, res: Response, next: NextFunction) => {
     try {
         const roleId = res.locals.roleId;
         if (roleId !== 3) {
-            return res.status(401).send(Helper.ResponseData(401, 'Forbidden', null, null));
+            return res.status(401).send(Helper.ResponseData(403, 'Forbidden', null, null));
         }
 
         next();

@@ -1,0 +1,17 @@
+[
+    {
+        "role": "Super Admin - 1",
+        "email": "lam@mail.com",
+        "password": "lam12345"
+    },
+    {
+        "role": "Admin Gudang - 2",
+        "email": "admin@mail.com",
+        "password": "admin123"
+    },
+    {
+        "role": "Basic User - 3",
+        "email": "biasa@mail.com",
+        "password": "biasa123"
+    }
+]

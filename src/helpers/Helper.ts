@@ -49,7 +49,7 @@ const GenerateToken = (data: any): string => {
 		if (!data) {
 			return 'User data not available';
 		}
-		const token = jwt.sign(data, process.env.JWT_TOKEN as string, { expiresIn: "1h"});
+		const token = jwt.sign(data, process.env.JWT_TOKEN as string, { expiresIn: "15m"});
 		return token;
 	} catch (error) {
 		return 'Failure Generate Token';

@@ -7,7 +7,7 @@ import Role from "../db/models/Role";
 const Register = async (req: Request, res: Response): Promise<Response> => {
     try {
 
-        const { name, email, address, born, nik, gender, phone, password } = req.body;
+        const { name, email, address, born, nik, gender, phone, password, roleId } = req.body;
         const hashed = await PasswordHelper.PasswordHashing(password);
 
         const user = await User.create({
@@ -19,15 +19,15 @@ const Register = async (req: Request, res: Response): Promise<Response> => {
             gender,
             phone,
             password: hashed,
+            roleId: roleId,
             active: true,
-            verified: true,
-            roleId: 1
+            verified: true
         });
 
         return res.status(201).send(Helper.ResponseData(201, 'Succesfully Created User', null, user))
 
     } catch (error: any) {
-        return res.status(201).send(Helper.ResponseData(500, 'Internal Server Error', error, null))
+        return res.status(500).send(Helper.ResponseData(500, 'Internal Server Error', error, null));
     }
 }
 
@@ -145,7 +145,7 @@ const UserLogout = async (req: Request, res: Response): Promise<Response> => {
         });
 
         res.clearCookie('refreshToken');
-        return res.status(200).send(Helper.ResponseData(200, 'User Logout', null, null));
+        return res.status(200).send(Helper.ResponseData(200, '', null, null));
     } catch (error) {
         return res.status(500).send(Helper.ResponseData(500, 'Internal Server Error', null, null));
     }
@@ -201,4 +201,21 @@ const RefreshToken = async (req: Request, res: Response): Promise<Response> => {
     }
 }
 
-export default { Register, UserLogin, UserDetail, UserLogout, RefreshToken }; 
+const GetAllUsers = async (req: Request, res: Response): Promise<Response> => {
+    try {
+
+        const users = await User.findAll({
+            where: {
+                active: [true, false]
+            }
+        });
+
+        return res.status(200).send(Helper.ResponseData(200, 'OK', null, users));
+
+    } catch (error: any) {
+        return res.status(500).send(Helper.ResponseData(500, 'Internal Server Error', error, null));
+    }
+}
+
+
+export default { Register, UserLogin, UserDetail, UserLogout, RefreshToken, GetAllUsers }; 
