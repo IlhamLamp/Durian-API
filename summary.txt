@@ -10,3 +10,8 @@
 ### Model Generate ###
 
     npx sequelize-cli model:generate --name User --attributes name:string,email:string,address:string,born:date,roleId:integer,nik:string,gender:string,phone:string,password:string,accessToken:string,verified:boolean,active:boolean
+
+    ### PRODUCT ###
+
+    npx sequelize-cli model:generate --name Product --attributes name:string,price:integer,weight:integer,status:integer,description:string
+

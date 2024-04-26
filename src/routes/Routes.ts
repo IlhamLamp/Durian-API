@@ -8,6 +8,8 @@ import Authorization from '../middleware/Authorization';
 import SupplierController from '../controllers/SupplierController';
 import BarangController from '../controllers/BarangController';
 import TransaksiController from '../controllers/TransaksiController';
+//
+import ProductController from '../controllers/ProductController';
 
 const router = express.Router();
 
@@ -34,17 +36,21 @@ router.patch("/supplier/:id", Authorization.Authenticated, Authorization.AdminRo
 router.delete("/supplier/:id", Authorization.Authenticated, Authorization.AdminRole, SupplierController.DeleteSupplier);
 
 // products
-router.get("/product", Authorization.Authenticated, Authorization.AdminRole, BarangController.GetBarangs);
-router.post("/product", Authorization.Authenticated, Authorization.AdminRole, BarangController.CreateBarangs);
-router.get("/product/search/", Authorization.Authenticated, Authorization.AdminRole, BarangController.SearchBarang);
-router.get("/product/:id", Authorization.Authenticated, Authorization.AdminRole, BarangController.GetBarangsById);
-router.patch("/product/:id", Authorization.Authenticated, Authorization.AdminRole, BarangController.UpdateBarangs);
-router.delete("/product/:id", Authorization.Authenticated, Authorization.AdminRole, BarangController.DeleteBarangs);
+// router.get("/product", Authorization.Authenticated, Authorization.AdminRole, BarangController.GetBarangs);
+// router.post("/product", Authorization.Authenticated, Authorization.AdminRole, BarangController.CreateBarangs);
+// router.get("/product/search/", Authorization.Authenticated, Authorization.AdminRole, BarangController.SearchBarang);
+// router.get("/product/:id", Authorization.Authenticated, Authorization.AdminRole, BarangController.GetBarangsById);
+// router.patch("/product/:id", Authorization.Authenticated, Authorization.AdminRole, BarangController.UpdateBarangs);
+// router.delete("/product/:id", Authorization.Authenticated, Authorization.AdminRole, BarangController.DeleteBarangs);
 
 // transaksi
 router.get("/barang-masuk", Authorization.Authenticated, Authorization.AdminRole, TransaksiController.GetTransaksiMasuk);
 router.post("/barang-masuk", Authorization.Authenticated, Authorization.AdminRole, TransaksiController.BarangMasuk);
 router.get("/barang-keluar", Authorization.Authenticated, Authorization.AdminRole, TransaksiController.GetTransaksiKeluar);
 router.post("/barang-keluar", Authorization.Authenticated, Authorization.AdminRole, TransaksiController.BarangKeluar);
+
+// test product
+router.get("/product", ProductController.GetProducts);
+router.post("/product", ProductController.CreateProduct);
 
 export default router;
